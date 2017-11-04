@@ -18,6 +18,7 @@ var destination = "";
 var firstTrain = "";
 var frequency = "";
 var arrival = "";
+var nextTrain = "";
 //Capture Button Click
 $("#add-train-btn").on("click", function(event) {
 	event.preventDefault();
@@ -35,7 +36,8 @@ console.log(trainName, destination, firstTrain, frequency);
 		firstTrain: firstTrain,
 		frequency: frequency,
 		arrival: arrival,
-       dateAdded: firebase.database.ServerValue.TIMESTAMP
+		nextTrain: nextTrain,
+    dateAdded: firebase.database.ServerValue.TIMESTAMP
 	});
 });
 // Firebase watcher + initial loader + order/limit HINT: .on("child_added"
@@ -48,9 +50,6 @@ console.log(trainName, destination, firstTrain, frequency);
       console.log(sv.destination);
       console.log(sv.firstTrain);
       console.log(sv.frequency);
-
- // Change the HTML to reflect
-      $('.table >tbody').append("<tr><td>" + sv.trainName + "</td>" + "<td>" + sv.destination + "</td>" + "<td>" + sv.firstTrain + "</td>" + + "<td>" + " " + "</td>" + "<td>" + sv.frequency + "</td>");
 // Moments
 var tFrequency = 7;
 
@@ -79,5 +78,7 @@ var tFrequency = 7;
 
     // Next Train
     var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-    });     
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm")); 
+ // Change the HTML to reflect
+      $('.table >tbody').append("<tr><td>" + sv.trainName + "</td>" + "<td>" + sv.destination + "</td>" + "<td>" + sv.firstTrain + "</td>" + + "<td>" + " " + "</td>" + "<td>" + sv.frequency + "</td>" + "<td>" + sv.arrival + "</td>" + "<td>" + sv.nextTrain + "</td>");
+    });  
