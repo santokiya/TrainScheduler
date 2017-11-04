@@ -16,7 +16,6 @@
     <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
 
     <!-- Moment.js Reference -->
-    <!-- <script src="http://momentjs.com/downloads/moment.js"></script>   -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
   </head>
@@ -47,8 +46,9 @@
                   <tr>
                     <th>Train Name</th>
                     <th>Destination</th>
-                    <th>First Train Time (HH:mm - military time)</th>
+                    <th>First Train Time (HH:mm)</th>
                     <th>Frequency (minutes)</th>
+                    <th>Arrival Time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -56,6 +56,7 @@
                   <td id="destination-display"></td>
                   <td id="firstTrainTime-display"></td>
                   <td id="frequency-display"></td>
+                  <td id="arrival-display"></td>
                   
                 </tbody>
               </table>
@@ -80,7 +81,7 @@
                   <input class="form-control" id="destination-input" type="text">
                 </div>
                 <div class="form-group">
-                  <label for="firstTrainTime-input">First Train Time (HH:mm - military time)</label>
+                  <label for="firstTrainTime-input">First Train Time (HH:mm)</label>
                   <input class="form-control" id="firstTrainTime-input" type="text">
                 </div>
                 <div class="form-group">
@@ -99,9 +100,8 @@
       </div>
 
     </div>
-
     <!-- JavaScript -->
-    <script src="trainLogic.js"></script>
+    <script src="assets/javascript/trainLogic.js"></script>
 
   </body>
 
