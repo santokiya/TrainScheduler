@@ -1,57 +1,57 @@
   // Initialize Firebase
   var config = {
-  	apiKey: "AIzaSyCcAuQqeRi42JEcc1kV27MeFB-3tZBTBvg",
-  	authDomain: "train-scheduler-2c01a.firebaseapp.com",
-  	databaseURL: "https://train-scheduler-2c01a.firebaseio.com",
-  	projectId: "train-scheduler-2c01a",
-  	storageBucket: "train-scheduler-2c01a.appspot.com",
-  	messagingSenderId: "267465259303"
+    apiKey: "AIzaSyCcAuQqeRi42JEcc1kV27MeFB-3tZBTBvg",
+    authDomain: "train-scheduler-2c01a.firebaseapp.com",
+    databaseURL: "https://train-scheduler-2c01a.firebaseio.com",
+    projectId: "train-scheduler-2c01a",
+    storageBucket: "train-scheduler-2c01a.appspot.com",
+    messagingSenderId: "267465259303"
   };
   firebase.initializeApp(config);
 
-// Create a variable to reference database
-var database = firebase.database();
+  // Create a variable to reference database
+  var database = firebase.database();
 
-//Initial Values
-var trainName = "";
-var destination = "";
-var firstTrain = "";
-var frequency = "";
-var arrival = "";
-var nextTrain = "";
-//Capture Button Click
-$("#add-train-btn").on("click", function(event) {
-	event.preventDefault();
-	// grab values from text boxes
-	trainName = $("#train-input").val().trim();
-	destination = $("#destination-input").val().trim();
-	firstTrain = $("#firstTrainTime-input").val().trim();
-	frequency = $("#frequency-input").val().trim();
-	
-	console.log(trainName, destination, firstTrain, frequency);
-	//Code for push
-	database.ref().push({
-		trainName: trainName,
-		destination: destination,
-		firstTrain: firstTrain,
-		frequency: frequency,
-		arrival: arrival,
-		nextTrain: nextTrain,
-		dateAdded: firebase.database.ServerValue.TIMESTAMP
-	});
-});
-// Firebase watcher + initial loader + order/limit HINT: .on("child_added"
-database.ref().orderByChild("dateAdded").on("child_added", function(snapshot) {
-      // storing the snapshot.val() in a variable for convenience
-      var sv = snapshot.val();
+  //Initial Values
+  var trainName = "";
+  var destination = "";
+  var firstTrain = "";
+  var frequency = "";
+  var arrival = "";
+  var nextTrain = "";
+  //Capture Button Click
+  $("#add-train-btn").on("click", function (event) {
+    event.preventDefault();
+    // grab values from text boxes
+    trainName = $("#train-input").val().trim();
+    destination = $("#destination-input").val().trim();
+    firstTrain = $("#firstTrainTime-input").val().trim();
+    frequency = $("#frequency-input").val().trim();
 
-      // Console.logging the last user's data
-      console.log(sv.trainName);
-      console.log(sv.destination);
-      console.log(sv.firstTrain);
-      console.log(sv.frequency);
-// Moments
-var tFrequency = parseInt( sv.frequency );;
+    console.log(trainName, destination, firstTrain, frequency);
+    //Code for push
+    database.ref().push({
+      trainName: trainName,
+      destination: destination,
+      firstTrain: firstTrain,
+      frequency: frequency,
+      arrival: arrival,
+      nextTrain: nextTrain,
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
+    });
+  });
+  // Firebase watcher + initial loader + order/limit HINT: .on("child_added"
+  database.ref().orderByChild("dateAdded").on("child_added", function (snapshot) {
+    // storing the snapshot.val() in a variable for convenience
+    var sv = snapshot.val();
+
+    // Console.logging the last user's data
+    console.log(sv.trainName);
+    console.log(sv.destination);
+    console.log(sv.firstTrain);
+    console.log(sv.frequency);
+    // Moments
+    var tFrequency = parseInt(sv.frequency);
 
     // Time is 3:30 AM
     var firstTime = sv.firstTrain;
@@ -78,7 +78,14 @@ var tFrequency = parseInt( sv.frequency );;
 
     // Next Train
     var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm")); 
- // Change the HTML to reflect
- $('.table >tbody').append("<tr><td>" + sv.trainName + "</td>" + "<td>" + sv.destination + "</td>" + "<td>" + sv.firstTrain + "</td>" + + "<td>" + " " + "</td>" + "<td>" + sv.frequency + "</td>" + "<td>" + sv.arrival + "</td>" + "<td>" + sv.nextTrain + "</td>");
-});  
+
+    var arrivalTime = moment(nextTrain).format("hh:mm");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+    // after next
+    var afterNextTrain = moment(nextTrain).add(tFrequency,"minutes").format("hh:mm");
+
+
+    // Change the HTML to reflect
+    $('.table >tbody').append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.firstTrain + "</td><td>" + sv.frequency + "</td><td>" + arrivalTime + "</td><td>" + afterNextTrain + "</td></tr>");
+  });
